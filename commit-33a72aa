@@ -1,0 +1,251 @@
+From 33a72aa606e9b532056bf953e74fa848b2b642c7 Mon Sep 17 00:00:00 2001
+From: zxorange321 <zxorange321@163.com>
+Date: Wed, 13 Mar 2019 13:54:07 +0800
+Subject: Revert "Signed-off-by: zxorange321 <zxorange321@163.com>"
+
+This reverts commit fef9621fed4951a1803a77c7fe47f9de3bb6b493.
+
+diff --git "a/leetcode_python/054_\350\236\272\346\227\213\347\237\251\351\230\265.py" "b/leetcode_python/054_\350\236\272\346\227\213\347\237\251\351\230\265.py"
+deleted file mode 100644
+index b6f10e0..0000000
+--- "a/leetcode_python/054_\350\236\272\346\227\213\347\237\251\351\230\265.py"
++++ /dev/null
+@@ -1,59 +0,0 @@
+-# -*- coding: utf-8 -*-
+-"""
+-Created on Sat Oct 20 02:03:46 2018
+-
+-@author: Administrator
+-"""
+-
+-class Solution:
+-    def spiralOrder(self, matrix):
+-        """
+-        :type matrix: List[List[int]]
+-        :rtype: List[int]
+-        """
+-        
+-        x,y = 0, -1
+-        direc = self.Dir()
+-        while True:
+-            x, y = direc.move(matrix, x, y)
+-            if x == None: break
+-            #print ("x,y", x,y)
+-            pass
+-        
+-        return direc.route
+-        
+-    class Dir():
+-        dire = 0
+-        
+-        def __init__(self):
+-            self.dire = 0 #0,right, 1, down, 2, left, 3, up
+-            self.row = 0 # 
+-            self.col = 1 
+-            self.dir = [[0,0,1],
+-                       [1,1,0],
+-                       [2,0,-1],
+-                       [3,-1,0]]
+-            self.route = []
+-        
+-        def turn_right(self):
+-            self.dire, self.row, self.col = self.dir[divmod(self.dire+1, 4)[1]]
+-            
+-        def move(self, matrix, x, y):
+-            for _ in range(0,3):
+-                x1, y1 = x + self.row, y + self.col
+-                if not self.is_qiang(matrix, x1, y1):
+-                    self.route.append(matrix[x1][y1])
+-                    #print ("x, dire", self.route, self.dire)
+-                    matrix[x1][y1] = None
+-                    return x1,y1 
+-                else:        
+-                    self.turn_right()
+-            return None, None
+-                    
+-            
+-        def is_qiang(self, matrix, x, y):
+-            if x < 0 or x >= len(matrix) or y < 0 or y >=len(matrix[0]) or matrix[x][y] == None:
+-                return True
+-            return False
+-
+-print (Solution().spiralOrder([[1,2,3],[4,5,6],[7,8,9]]))
+\ No newline at end of file
+diff --git "a/leetcode_python/059_\350\236\272\346\227\213\347\237\251\351\230\265II.py" "b/leetcode_python/059_\350\236\272\346\227\213\347\237\251\351\230\265II.py"
+deleted file mode 100644
+index 89d5d10..0000000
+--- "a/leetcode_python/059_\350\236\272\346\227\213\347\237\251\351\230\265II.py"
++++ /dev/null
+@@ -1,65 +0,0 @@
+-# -*- coding: utf-8 -*-
+-"""
+-Created on Sat Oct 20 02:29:19 2018
+-
+-@author: Administrator
+-"""
+-
+-class Solution:
+-    def generateMatrix(self, n):
+-        """
+-        :type n: int
+-        :rtype: List[List[int]]
+-        """
+-        matrix = [[0 for i in range(n)] for j in range(n)]
+-
+-        
+-        x,y = 0, -1
+-        direc = self.Dir(0)
+-        while True:
+-            x, y = direc.move(matrix, x, y)
+-            if x == None: break
+-            #print ("x,y", x,y)
+-            pass
+-        
+-        return matrix
+-        
+-    class Dir():
+-        dire = 0
+-        
+-        def __init__(self, start):
+-            self.dire = 0 #0,right, 1, down, 2, left, 3, up
+-            self.row = 0 # 
+-            self.col = 1 
+-            self.dir = [[0,0,1],
+-                       [1,1,0],
+-                       [2,0,-1],
+-                       [3,-1,0]]
+-            self.route = []
+-            self.start = start
+-        
+-        def turn_right(self):
+-            self.dire, self.row, self.col = self.dir[divmod(self.dire+1, 4)[1]]
+-            
+-        def move(self, matrix, x, y):
+-            for _ in range(0,3):
+-                x1, y1 = x + self.row, y + self.col
+-                if not self.is_qiang(matrix, x1, y1):
+-                    self.route.append(matrix[x1][y1])
+-                    #print ("x, dire", self.route, self.dire)
+-                    self.start += 1
+-                    matrix[x1][y1] = self.start
+-                    #print (matrix)
+-                    return x1,y1 
+-                else:        
+-                    self.turn_right()
+-            return None, None
+-                    
+-            
+-        def is_qiang(self, matrix, x, y):
+-            if x < 0 or x >= len(matrix) or y < 0 or y >=len(matrix[0]) or matrix[x][y] != 0:
+-                return True
+-            return False
+-
+-            
+-print (Solution().generateMatrix(3))       
+\ No newline at end of file
+diff --git "a/leetcode_python/078_\345\255\220\351\233\206.py" "b/leetcode_python/078_\345\255\220\351\233\206.py"
+deleted file mode 100644
+index 0f4aebb..0000000
+--- "a/leetcode_python/078_\345\255\220\351\233\206.py"
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# -*- coding: utf-8 -*-
+-"""
+-Created on Wed Oct 24 00:23:45 2018
+-
+-@author: Administrator
+-"""
+-
+-        
+-class Solution(object):
+-    def subsets(self, nums):
+-        """
+-        :type nums: List[int]
+-        :rtype: List[List[int]]
+-        """
+-        import copy
+-        res = []
+-        
+-        que = [[ni] for i, ni in enumerate(nums)]
+-        
+-        while len(que) != 0:
+-            tmp = que.pop(0)
+-            #print (list(tmp.keys()))
+-            if tmp not in res:
+-                res.append(tmp)
+-            for i in range(len(nums)):
+-                tmpa = copy.deepcopy(tmp)
+-#                print (tmpa)
+-                if nums[i] not in tmpa:
+-                    tmpa.append(nums[i])
+-                    tmpa.sort()
+-                    if tmpa not in res:
+-                        que.append(tmpa)
+-
+-                    
+-        res.append([])
+-        return res
+-    
+-print (Solution().subsets([1,2,3,4,5,6,7]))
+\ No newline at end of file
+diff --git "a/leetcode_python/088_\345\220\210\345\271\266\344\270\244\344\270\252\346\234\211\345\272\217\346\225\260\347\273\204.py" "b/leetcode_python/088_\345\220\210\345\271\266\344\270\244\344\270\252\346\234\211\345\272\217\346\225\260\347\273\204.py"
+deleted file mode 100644
+index 6790a0c..0000000
+--- "a/leetcode_python/088_\345\220\210\345\271\266\344\270\244\344\270\252\346\234\211\345\272\217\346\225\260\347\273\204.py"
++++ /dev/null
+@@ -1,54 +0,0 @@
+-#!/usr/bin/python
+-'''
+-合并两个有序数组
+-
+-给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
+-
+-说明:
+-
+-初始化 nums1 和 nums2 的元素数量分别为 m 和 n。
+-你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+-示例:
+-
+-输入:
+-nums1 = [1,2,3,0,0,0], m = 3
+-nums2 = [2,5,6],       n = 3
+-
+-输出: [1,2,2,3,5,6]
+-'''
+-
+-class Solution:
+-    def merge(self, nums1, m, nums2, n):
+-        """
+-        :type nums1: List[int]
+-        :type m: int
+-        :type nums2: List[int]
+-        :type n: int
+-        :rtype: void Do not return anything, modify nums1 in-place instead.
+-        """
+-        
+-        la = []
+-        
+-        i = j = 0
+-        while i < m or j < n:
+-            if i >= m:
+-                la.append(nums2[j])
+-                j += 1
+-                continue
+-            if j >= n:
+-                la.append(nums1[i])
+-                i += 1
+-                continue
+-            if(nums1[i] <= nums2[j]):
+-                la.append(nums1[i])
+-                i += 1
+-            else: 
+-                la.append(nums2[j])
+-                j += 1
+- 
+-        for i in range(len(la)):
+-            nums1[i] = la[i]
+-            
+-        
+-
+-print (Solution().merge([1,2,3,0,0,0],3, [2,5,6], 3))
+\ No newline at end of file
